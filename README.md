@@ -36,7 +36,7 @@ BenchmarkCSV/encoding_csv/100000_records-8                    43          271052
 BenchmarkCSV/gofileproc/100000_records-8                     100          14856413 ns/op         4330446 B/op         59 allocs/op
 ```
  
-At 100k records: **1.9x faster**, **3600x fewer allocations**.
+At 100k records: **1.8x faster**, **5000x fewer allocations**.
  
 Small files have mmap overhead; gofileproc wins at scale.
  
