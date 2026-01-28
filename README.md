@@ -1,9 +1,26 @@
 # gofileproc
  
-Fast CSV and JSON file processor using mmap and parallel processing.
+Fast CSV file processor using mmap and parallel processing.
+
+## Installation
+
+```bash
+go get github.com/MYK12397/gofileproc
+```
+
+## Usage
  
+```go
+// CSV
+proc := gofileproc.NewCSVProcessor(gofileproc.DefaultConfig())
+proc.Process("in.csv", "out.csv", func(line int, fields [][]byte) [][]byte {
+    fields[1] = append(fields[1], "_modified"...)
+    return fields
+})
+```
+
 ## Benchmark
- 
+
 ```
 goos: darwin
 goarch: arm64
@@ -25,24 +42,6 @@ BenchmarkCSV/gofileproc/100000_records-12        248    5797796 ns/op  4431146 B
 At 100k records: **1.9x faster**, **3600x fewer allocations**.
  
 Small files have mmap overhead; gofileproc wins at scale.
- 
-## Usage
- 
-```go
-// CSV
-proc := gofileproc.NewCSVProcessor(gofileproc.DefaultConfig())
-proc.Process("in.csv", "out.csv", func(line int, fields [][]byte) [][]byte {
-    fields[1] = append(fields[1], "_modified"...)
-    return fields
-})
- 
-// JSON
-jp := gofileproc.NewJSONProcessor(gofileproc.DefaultConfig())
-jp.Process("in.json", "out.json", func(obj map[string]any) map[string]any {
-    obj["done"] = true
-    return obj
-})
-```
  
 ## Run Benchmarks
  
